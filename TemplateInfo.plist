@@ -2,6 +2,37 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Options</key>
+	<array>
+		<dict>
+			<key>Default</key>
+			<string>true</string>
+			<key>Identifier</key>
+			<string>Free</string>
+			<key>NotPersistet</key>
+			<string>true</string>
+			<key>Name</key>
+			<string>Also create Free</string>
+			<key>Type</key>
+			<string>checkbox</string>
+			<key>Description</key>
+			<string>Whether to also create a Free monad</string>
+		</dict>
+		<dict>
+			<key>NotPersistet</key>
+			<string>true</string>
+			<key>Type</key>
+			<string>text</string>
+			<key>Description</key>
+			<string>The name of the Domain Specific Language to create</string>
+			<key>Name</key>
+			<string>DSL Name</string>
+			<key>Required</key>
+			<true/>
+			<key>Identifier</key>
+			<string>productName</string>
+		</dict>
+	</array>
 	<key>SupportsSwiftPackage</key>
 	<true/>
 	<key>Kind</key>
