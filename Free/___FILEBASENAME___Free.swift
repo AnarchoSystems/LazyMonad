@@ -13,11 +13,13 @@ import Foundation
 
 public protocol ___VARIABLE_productName___Interpreter {
 
+    associatedtype Val
+    
     ///Executes a single instruction of a program.
     /// - Parameters:
     ///     - program: The program.
     /// - Returns: The rest of the program.
-    func interpret<Val, T>(_ program: ___VARIABLE_productName___<Val, ___VARIABLE_productName___<Val, T>.Free>) throws -> ___VARIABLE_productName___<Val,T>.Free
+    func interpret<T>(_ program: ___VARIABLE_productName___<Val, ___VARIABLE_productName___<Val, T>.Free>) throws -> ___VARIABLE_productName___<Val,T>.Free
 }
 
 
@@ -59,7 +61,7 @@ public extension ___VARIABLE_productName___.Free {
     ///     - interpreter: The interpreter for the monadic program.
     func runUnsafe<I : ___VARIABLE_productName___Interpreter>
     (mapper: ___VARIABLE_productName___FunctorImplementation,
-     interpreter: I) throws -> T {
+     interpreter: I) throws -> T where I.Val == Val {
         
         var current = self
         
