@@ -2,11 +2,13 @@
 
 
 # Installation
-Clone the project, create a folder at /Library/Developer/XCode/Templates/YourTemplateName.xctemplate and copy the content of this project to this folder.
+Clone the project, create a folder at /Library/Developer/XCode/Templates/ (or navigate there if you already have templates) and copy the content of this project to this folder.
 
 
 # Usage
-In XCode, create a new File and choose YourTemplateName from the list of templates in the wizzard. Enter a name for the DSL you want to create and confirm. You will get two files, YourDSLName.swift, YourDSLNameCoyoneda.swift, and if you enabled the option "also generate Free", you additionally get YourDSLNameFree.swift.
+
+## Coyoneda
+In XCode, create a new File and choose Coyoneda from the list of templates in the wizzard. Enter a name for the DSL you want to create and confirm. You will get two files, YourDSLName.swift, YourDSLNameCoyoneda.swift, and if you enabled the option "also generate Free", you additionally get YourDSLNameFree.swift.
 
 
 You can change the data structure YourDSLName in whichever way you like. Renaming refactors and complete replacements of the implementation should work out of the box (even though you may want to rename the protocol YourDSLNameFunctorImplementation and YourDSLNameInterpreter). If you change the names or the number of generic arguments, you will need to do a few manual changes in YourDSLNameCoyoneda.swift and YourDSLNameFree.swift. Thanks to type nesting and type aliases, this type of refactor shouldn't be too complicated either.

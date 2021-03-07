@@ -9,7 +9,7 @@
 			<string>true</string>
 			<key>Identifier</key>
 			<string>Free</string>
-			<key>NotPersistet</key>
+			<key>NotPersisted</key>
 			<string>true</string>
 			<key>Name</key>
 			<string>Also create Free</string>
@@ -19,7 +19,7 @@
 			<string>Whether to also create a Free monad</string>
 		</dict>
 		<dict>
-			<key>NotPersistet</key>
+			<key>NotPersisted</key>
 			<string>true</string>
 			<key>Type</key>
 			<string>text</string>
