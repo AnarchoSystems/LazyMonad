@@ -13,13 +13,13 @@ import Foundation
 ///A ___VARIABLE_productName___FunctorImplementation contains the actual implementation of map.
 public protocol ___VARIABLE_productName___FunctorImplementation {
     
-    ///This method describes how functions from S to T should be lifted to functions from ___VARIABLE_productName___<Val, S> to ___VARIABLE_productName___<Val, T>.
+    ///This method describes how functions from S to T should be lifted to functions from ___VARIABLE_productName___<S> to ___VARIABLE_productName___<T>.
     /// - Parameters:
     ///     - value: The value before the call to transform.
     ///     - transform: A function operating on the generic type argument.
     /// - Returns: The mapped ___FILEBASENAMEASIDENTIFIER___.
-    func map<Val,S,T>(_ value: ___VARIABLE_productName___<Val, S>,
-                  _ transform: @escaping (S) -> T) -> ___VARIABLE_productName___<Val, T>
+    func map<S,T>(_ value: ___VARIABLE_productName___<S>,
+                  _ transform: @escaping (S) -> T) -> ___VARIABLE_productName___<T>
     
 }
 
@@ -45,7 +45,7 @@ public extension ___VARIABLE_productName___ {
 public extension ___VARIABLE_productName___.Coyoneda {
     
     
-    typealias ___VARIABLE_productName___U<U> = ___VARIABLE_productName___<Val, U>
+    typealias ___VARIABLE_productName___U<U> = ___VARIABLE_productName___<U>
     
     
     ///Actually runs the functor chain with the given implementation.

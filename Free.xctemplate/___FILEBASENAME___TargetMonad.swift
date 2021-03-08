@@ -11,7 +11,7 @@ import Foundation
 
 public protocol ___VARIABLE_productName___TargetInterpreter {
     
-    func interpret<S, T>(_ action: ___VARIABLE_productName___<S>, continuation: (S) -> ___VARIABLE_productName___TargetMonad<T>) -> ___VARIABLE_productName___TargetMonad<T>
+    func evaluate<S, T>(_ action: ___VARIABLE_productName___<S>, continuation: (S) -> ___VARIABLE_productName___TargetMonad<T>) -> ___VARIABLE_productName___TargetMonad<T>
     
 }
 

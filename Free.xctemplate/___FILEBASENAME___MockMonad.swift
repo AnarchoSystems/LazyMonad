@@ -11,7 +11,7 @@ import Foundation
 
 public protocol ___VARIABLE_productName___MockInterpreter {
     
-    func interpret<S, T>(_ action: ___VARIABLE_productName___<S>, continuation: @escaping (S) -> ___VARIABLE_productName___MockMonad<T>) -> ___VARIABLE_productName___MockMonad<T>
+    func evaluate<S, T>(_ action: ___VARIABLE_productName___<S>, continuation: @escaping (S) -> ___VARIABLE_productName___MockMonad<T>) -> ___VARIABLE_productName___MockMonad<T>
     
 }
 

@@ -13,13 +13,11 @@ import Foundation
 
 public protocol ___VARIABLE_productName___Interpreter {
 
-    associatedtype Val
-    
     ///Executes a single instruction of a program.
     /// - Parameters:
     ///     - program: The program.
     /// - Returns: The rest of the program.
-    func interpret<T>(_ program: ___VARIABLE_productName___<Val, ___VARIABLE_productName___<Val, T>.Free>) throws -> ___VARIABLE_productName___<Val,T>.Free
+    func interpret<T>(_ program: ___VARIABLE_productName___<___VARIABLE_productName___<T>.Free>) throws -> ___VARIABLE_productName___<T>.Free
 }
 
 
@@ -30,7 +28,7 @@ public extension ___VARIABLE_productName___ {
     ///The Free data type enables to describe a monadic workflow on the underlying functorial type. In order to run a monadic program, simply write methods for Free that recursively or iteratively switch over the value.
     enum Free {
         case pure(T)
-        indirect case free(___VARIABLE_productName___<Val, Free>.Coyoneda)
+        indirect case free(___VARIABLE_productName___<Free>.Coyoneda)
     }
     
     ///Constructs a new free object.
@@ -52,7 +50,7 @@ public extension ___VARIABLE_productName___ {
 public extension ___VARIABLE_productName___.Free {
     
     
-    typealias ___VARIABLE_productName___U<U> = ___VARIABLE_productName___<Val, U>
+    typealias ___VARIABLE_productName___U<U> = ___VARIABLE_productName___<U>
     
     
     ///Runs the monadic program given the implementation of map and the interpretation of monadic values.
@@ -61,7 +59,7 @@ public extension ___VARIABLE_productName___.Free {
     ///     - interpreter: The interpreter for the monadic program.
     func runUnsafe<I : ___VARIABLE_productName___Interpreter>
     (mapper: ___VARIABLE_productName___FunctorImplementation,
-     interpreter: I) throws -> T where I.Val == Val {
+     interpreter: I) throws -> T {
         
         var current = self
         
