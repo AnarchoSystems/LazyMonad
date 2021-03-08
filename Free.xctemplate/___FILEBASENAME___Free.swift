@@ -11,7 +11,7 @@ public protocol ___VARIABLE_productName___Interpreter {
     ///     - action: The ___VARIABLE_productName___ to receive a meaning.
     ///     - continuation: The rest of the workflow.
     func evaluate<S,T>(_ action: ___VARIABLE_productName___<S>, continuation: (S) -> T) -> T
-
+    
 }
 
 
@@ -45,8 +45,8 @@ public extension ___VARIABLE_productName___ {
         public typealias ___VARIABLE_productName___U<U> = ___VARIABLE_productName___<U>
         
         private enum Kind {
-        case pure(T)
-        case free(Interpretable, (Any) -> Free)
+            case pure(T)
+            case free(Interpretable, (Any) -> Free)
         }
         
         private let kind : Kind
@@ -108,8 +108,9 @@ public extension ___VARIABLE_productName___ {
             case .pure(let t):
                 return .pure(t)
             case .free(let i, let cont):
-                return i.interpretation(with: interpreter){t in
+                return ___VARIABLE_productName___MockMonad<Void>.pure(()).flatMap{_ in i.interpretation(with: interpreter){t in
                     cont(t).runUnsafe(interpreter)
+                }
                 }
             }
             
@@ -123,8 +124,9 @@ public extension ___VARIABLE_productName___ {
             case .pure(let t):
                 return .pure(t)
             case .free(let i, let cont):
-                return i.interpretation(with: interpreter){t in
+                return ___VARIABLE_productName___TargetMonad<Void>.pure(()).flatMap{_ in i.interpretation(with: interpreter){t in
                     cont(t).runUnsafe(interpreter)
+                }
                 }
             }
             

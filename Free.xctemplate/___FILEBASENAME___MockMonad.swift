@@ -30,13 +30,13 @@ public extension ___VARIABLE_productName___MockMonad {
         fatalError("Yours to implement")
     }
     
-    //map and flatMap only needed if you want to implement any workflows in this monad
-    
-    func map<T>(_ transform: @escaping (S) -> T) -> ___VARIABLE_productName___MockMonad<T> {
+    func flatMap<T>(_ transform: @escaping (S) -> ___VARIABLE_productName___MockMonad<T>) -> ___VARIABLE_productName___MockMonad<T> {
         fatalError("Yours to implement")
     }
     
-    func flatMap<T>(_ transform: @escaping (S) -> ___VARIABLE_productName___MockMonad<T>) -> ___VARIABLE_productName___MockMonad<T> {
+    //map only needed if you want to implement any workflows in this monad
+    
+    func map<T>(_ transform: @escaping (S) -> T) -> ___VARIABLE_productName___MockMonad<T> {
         fatalError("Yours to implement")
     }
     
