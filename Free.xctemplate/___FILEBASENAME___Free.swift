@@ -44,18 +44,18 @@ public extension ___VARIABLE_productName___ {
         //Should help to make refactorization of the number of generic types a little bit more convenient
         public typealias ___VARIABLE_productName___U<U> = ___VARIABLE_productName___<U>
         
-        private enum Kind {
+        fileprivate enum Kind {
             case pure(T)
             case free(Interpretable, (Any) -> Free)
         }
         
-        private let kind : Kind
+        fileprivate let kind : Kind
         
-        private static func pure(_ t: T) -> Self {
+        public static func pure(_ t: T) -> Self {
             .init(kind: .pure(t))
         }
         
-        private static func free(_ interp: Interpretable, cont: @escaping (Any) -> Self) -> Self {
+        fileprivate static func free(_ interp: Interpretable, cont: @escaping (Any) -> Self) -> Self {
             .init(kind: .free(interp, cont))
         }
         
@@ -142,4 +142,20 @@ public extension ___VARIABLE_productName___ {
         
     }
     
+}
+
+
+
+public func suspend<T, U>(_ action: ___VARIABLE_productName___<T>,
+                then: @escaping (T) -> ___VARIABLE_productName___<U>.Free) -> ___VARIABLE_productName___<U>.Free {
+    .init(kind: .free(action){then($0 as! T)})
+}
+
+public func suspend<T, U>(_ action: ___VARIABLE_productName___<T>,
+                then: @escaping (T) -> U) -> ___VARIABLE_productName___<U>.Free {
+    suspend(action){.pure(then($0))}
+}
+
+public func suspend(_ action: ___VARIABLE_productName___<Void>) -> ___VARIABLE_productName___<Void>.Free {
+    .lift(action)
 }
