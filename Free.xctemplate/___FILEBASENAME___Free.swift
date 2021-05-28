@@ -135,7 +135,7 @@ public extension ___VARIABLE_productName___ {
         
         ///Wraps a ___VARIABLE_productName___ onto the monad.
         /// - Parameters:
-        ///     - action: The ___Variable_productName___ to wrap.
+        ///     - action: The ___VARIABLE_productName___ to wrap.
         public static func lift(_ action: ___VARIABLE_productName___) -> Free {
             .free(action){.pure($0 as! T)}
         }
