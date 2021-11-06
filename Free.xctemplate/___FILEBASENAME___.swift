@@ -40,7 +40,7 @@ extension ___VARIABLE_productName___ where T == Env {
 }
 
 
-extension ___VARIABLE_productName___ where T == [Int] T == Void {
+extension ___VARIABLE_productName___ where T == Void {
     
     static func withState(_ computeAction: @escaping (State) -> Action) -> Self {
         .init(.withState{state in let action = computeAction(state); state.apply(action)})

@@ -11,7 +11,7 @@ import Foundation
 
 public protocol ___VARIABLE_productName___TargetInterpreter {
     
-    func evaluate<S, T>(_ action: ___VARIABLE_productName___<S>, continuation: (S) -> ___VARIABLE_productName___TargetMonad<T>) -> ___VARIABLE_productName___TargetMonad<T>
+    func evaluate<T>(_ action: ___VARIABLE_productName___<T>) -> ___VARIABLE_productName___TargetMonad<T>
     
 }
 
@@ -34,7 +34,7 @@ public extension ___VARIABLE_productName___TargetMonad {
         fatalError("Yours to implement")
     }
     
-    //map only needed if you want to implement any workflows in this monad
+    //map is only needed if you want to implement any workflows in this monad
     
     func map<T>(_ transform: @escaping (S) -> T) -> ___VARIABLE_productName___TargetMonad<T> {
         fatalError("Yours to implement")

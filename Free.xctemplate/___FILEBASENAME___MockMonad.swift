@@ -11,7 +11,7 @@ import Foundation
 
 public protocol ___VARIABLE_productName___MockInterpreter {
     
-    func evaluate<S, T>(_ action: ___VARIABLE_productName___<S>, continuation: @escaping (S) -> ___VARIABLE_productName___MockMonad<T>) -> ___VARIABLE_productName___MockMonad<T>
+    func evaluate<T>(_ action: ___VARIABLE_productName___<T>) -> ___VARIABLE_productName___MockMonad<T>
     
 }
 
@@ -34,7 +34,7 @@ public extension ___VARIABLE_productName___MockMonad {
         fatalError("Yours to implement")
     }
     
-    //map only needed if you want to implement any workflows in this monad
+    //map is only needed if you want to implement any workflows in this monad
     
     func map<T>(_ transform: @escaping (S) -> T) -> ___VARIABLE_productName___MockMonad<T> {
         fatalError("Yours to implement")

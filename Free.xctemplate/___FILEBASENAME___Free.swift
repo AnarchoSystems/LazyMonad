@@ -10,26 +10,26 @@ public protocol ___VARIABLE_productName___Interpreter {
     /// - Parameters:
     ///     - action: The ___VARIABLE_productName___ to receive a meaning.
     ///     - continuation: The rest of the workflow.
-    func evaluate<S,T>(_ action: ___VARIABLE_productName___<S>, continuation: (S) -> T) -> T
+    func evaluate<T>(_ action: ___VARIABLE_productName___<T>) -> T
     
 }
 
 
 fileprivate protocol Interpretable {
-    func interpretation<I : ___VARIABLE_productName___Interpreter, T>(with interpreter: I, continuation: @escaping (Any) -> T) -> T
-    func interpretation<I : ___VARIABLE_productName___MockInterpreter, T>(with interpreter: I, continuation: @escaping (Any) -> ___VARIABLE_productName___MockMonad<T>) -> ___VARIABLE_productName___MockMonad<T>
-    func interpretation<I : ___VARIABLE_productName___TargetInterpreter, T>(with interpreter: I, continuation: @escaping (Any) -> ___VARIABLE_productName___TargetMonad<T>) -> ___VARIABLE_productName___TargetMonad<T>
+    func interpretation<I : ___VARIABLE_productName___Interpreter, U>(with interpreter: I, continuation: @escaping (Any) -> U) -> U
+    func interpretation<I : ___VARIABLE_productName___MockInterpreter, U>(with interpreter: I, continuation: @escaping (Any) -> ___VARIABLE_productName___MockMonad<U>) -> ___VARIABLE_productName___MockMonad<U>
+    func interpretation<I : ___VARIABLE_productName___TargetInterpreter, U>(with interpreter: I, continuation: @escaping (Any) -> ___VARIABLE_productName___TargetMonad<U>) -> ___VARIABLE_productName___TargetMonad<U>
 }
 
 extension ___VARIABLE_productName___ : Interpretable {
-    fileprivate func interpretation<I : ___VARIABLE_productName___Interpreter, T>(with interpreter: I, continuation: @escaping (Any) -> T) -> T {
-        interpreter.evaluate(self, continuation: continuation)
+    fileprivate func interpretation<I : ___VARIABLE_productName___Interpreter, U>(with interpreter: I, continuation: @escaping (Any) -> U) -> U {
+        continuation(interpreter.evaluate(self))
     }
-    fileprivate func interpretation<I : ___VARIABLE_productName___MockInterpreter, T>(with interpreter: I, continuation: @escaping (Any) -> ___VARIABLE_productName___MockMonad<T>) -> ___VARIABLE_productName___MockMonad<T> {
-        interpreter.evaluate(self, continuation: continuation)
+    fileprivate func interpretation<I : ___VARIABLE_productName___MockInterpreter, U>(with interpreter: I, continuation: @escaping (Any) -> ___VARIABLE_productName___MockMonad<U>) -> ___VARIABLE_productName___MockMonad<U> {
+        interpreter.evaluate(self).flatMap(continuation)
     }
-    fileprivate func interpretation<I : ___VARIABLE_productName___TargetInterpreter, T>(with interpreter: I, continuation: @escaping (Any) -> ___VARIABLE_productName___TargetMonad<T>) -> ___VARIABLE_productName___TargetMonad<T> {
-        interpreter.evaluate(self, continuation: continuation)
+    fileprivate func interpretation<I : ___VARIABLE_productName___TargetInterpreter, U>(with interpreter: I, continuation: @escaping (Any) -> ___VARIABLE_productName___TargetMonad<U>) -> ___VARIABLE_productName___TargetMonad<U> {
+        interpreter.evaluate(self).flatMap(continuation)
     }
 }
 
@@ -133,29 +133,22 @@ public extension ___VARIABLE_productName___ {
         }
         
         
-        ///Wraps a ___VARIABLE_productName___ onto the monad.
+        ///Wraps a ___VARIABLE_productName___ into the monad.
         /// - Parameters:
         ///     - action: The ___VARIABLE_productName___ to wrap.
         public static func lift(_ action: ___VARIABLE_productName___) -> Free {
-            .free(action){.pure($0 as! T)}
+            .lift(action, Free.pure)
+        }
+        
+        
+        
+        ///Wraps a ___VARIABLE_productName___ into the monad.
+        /// - Parameters:
+        ///     - action: The ___VARIABLE_productName___ to wrap.
+        public static func lift<U>(_ action: ___VARIABLE_productName___, _ continuation: @escaping (T) -> ___VARIABLE_productName___U<U>.Free) -> ___VARIABLE_productName___U<U>.Free {
+            ___VARIABLE_productName___.Free.free(action){.pure($0 as! T)}.flatMap(continuation)
         }
         
     }
     
-}
-
-
-
-public func suspend<T, U>(_ action: ___VARIABLE_productName___<T>,
-                then: @escaping (T) -> ___VARIABLE_productName___<U>.Free) -> ___VARIABLE_productName___<U>.Free {
-    .init(kind: .free(action){then($0 as! T)})
-}
-
-public func suspend<T, U>(_ action: ___VARIABLE_productName___<T>,
-                then: @escaping (T) -> U) -> ___VARIABLE_productName___<U>.Free {
-    suspend(action){.pure(then($0))}
-}
-
-public func suspend(_ action: ___VARIABLE_productName___<Void>) -> ___VARIABLE_productName___<Void>.Free {
-    .lift(action)
 }
