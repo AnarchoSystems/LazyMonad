@@ -13,31 +13,45 @@ public struct ___VARIABLE_productName___<T> {
     fileprivate init(_ kind: Kind){self.kind = kind}
     
     public enum Kind {
-        case add(Int, continuation: (Bool) -> T)
-        case remove(Int, continuation: (Bool) -> T)
-        case filter((Int) -> Bool, continuation: ([Int]) -> T)
+        case read((Env) -> T)
+        case withState((inout State) -> T)
+        case shutdown(() -> T)
     }
 
 }
 
 
-extension ___VARIABLE_productName___ where T == Bool {
+public struct Env {}
+
+public struct Action {}
+
+public struct State {
     
-    static func add(_ value: Int) -> Self {
-        ___VARIABLE_productName___(.add(value, continuation: {$0}))
-    }
-    
-    static func remove(_ value: Int) -> Self {
-        ___VARIABLE_productName___(.remove(value, continuation: {$0}))
-    }
+    mutating func apply(_ action: Action){}
     
 }
 
 
-extension ___VARIABLE_productName___ where T == [Int] {
+extension ___VARIABLE_productName___ where T == Env {
     
-    static func getAll(_ pred: @escaping (Int) -> Bool) -> Self {
-        ___VARIABLE_productName___(.filter(pred, continuation: {$0}))
+    static func read() -> Self {
+        .init(.read({$0}))
+    }
+}
+
+
+extension ___VARIABLE_productName___ where T == [Int] T == Void {
+    
+    static func withState(_ computeAction: @escaping (State) -> Action) -> Self {
+        .init(.withState{state in let action = computeAction(state); state.apply(action)})
+    }
+    
+    static func withState(do action: Action) -> Self {
+        withState{_ in action}
+    }
+    
+    static func shutdown() -> Self {
+        .init(.shutdown({}))
     }
     
 }
