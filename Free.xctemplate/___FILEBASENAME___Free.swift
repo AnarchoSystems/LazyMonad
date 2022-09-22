@@ -14,26 +14,6 @@ public protocol ___VARIABLE_productName___Interpreter {
     
 }
 
-
-fileprivate protocol Interpretable {
-    func interpretation<I : ___VARIABLE_productName___Interpreter, U>(with interpreter: I, continuation: @escaping (Any) -> U) -> U
-    func interpretation<I : ___VARIABLE_productName___MockInterpreter, U>(with interpreter: I, continuation: @escaping (Any) -> ___VARIABLE_productName___MockMonad<U>) -> ___VARIABLE_productName___MockMonad<U>
-    func interpretation<I : ___VARIABLE_productName___TargetInterpreter, U>(with interpreter: I, continuation: @escaping (Any) -> ___VARIABLE_productName___TargetMonad<U>) -> ___VARIABLE_productName___TargetMonad<U>
-}
-
-extension ___VARIABLE_productName___ : Interpretable {
-    fileprivate func interpretation<I : ___VARIABLE_productName___Interpreter, U>(with interpreter: I, continuation: @escaping (Any) -> U) -> U {
-        continuation(interpreter.evaluate(self))
-    }
-    fileprivate func interpretation<I : ___VARIABLE_productName___MockInterpreter, U>(with interpreter: I, continuation: @escaping (Any) -> ___VARIABLE_productName___MockMonad<U>) -> ___VARIABLE_productName___MockMonad<U> {
-        interpreter.evaluate(self).flatMap(continuation)
-    }
-    fileprivate func interpretation<I : ___VARIABLE_productName___TargetInterpreter, U>(with interpreter: I, continuation: @escaping (Any) -> ___VARIABLE_productName___TargetMonad<U>) -> ___VARIABLE_productName___TargetMonad<U> {
-        interpreter.evaluate(self).flatMap(continuation)
-    }
-}
-
-
 public extension ___VARIABLE_productName___ {
     
     ///Free lazily turns your ___VARIABLE_productName___ into a monad for free!
@@ -46,7 +26,7 @@ public extension ___VARIABLE_productName___ {
         
         fileprivate enum Kind {
             case pure(T)
-            case free(Interpretable, (Any) -> Free)
+            case free(___VARIABLE_productName___U<Any>, (Any) -> Free)
         }
         
         fileprivate let kind : Kind
@@ -55,7 +35,7 @@ public extension ___VARIABLE_productName___ {
             .init(kind: .pure(t))
         }
         
-        fileprivate static func free(_ interp: Interpretable, cont: @escaping (Any) -> Self) -> Self {
+        fileprivate static func free(_ interp: ___VARIABLE_productName___U<Any>, cont: @escaping (Any) -> Self) -> Self {
             .init(kind: .free(interp, cont))
         }
         
@@ -94,7 +74,7 @@ public extension ___VARIABLE_productName___ {
                 case .pure(let t):
                     return t
                 case .free(let i, let cont):
-                    current = i.interpretation(with: interpreter, continuation: cont).kind
+                    current = cont(interpreter.evaluate(i)).kind
                 }
             }
             
@@ -108,14 +88,10 @@ public extension ___VARIABLE_productName___ {
             case .pure(let t):
                 return .pure(t)
             case .free(let i, let cont):
-                return ___VARIABLE_productName___MockMonad<Void>.pure(()).flatMap{_ in i.interpretation(with: interpreter){t in
-                    cont(t).runUnsafe(interpreter)
-                }
+                return interpreter.evaluate(i).flatMap{cont($0).runUnsafe(interpreter)}
                 }
             }
             
-        }
-        
         ///Runs the monadic computation using an interpreter appropriate for production.
         /// - Note: The implementation of ```runUnsafe``` is exactly the same for different types of interpreters. Feel free to add further target monads via copy+paste. If Swift had higher kind types, one could even put this into a single protocol.
         public func runUnsafe<I : ___VARIABLE_productName___TargetInterpreter>(_ interpreter: I) -> ___VARIABLE_productName___TargetMonad<T> {
@@ -124,12 +100,8 @@ public extension ___VARIABLE_productName___ {
             case .pure(let t):
                 return .pure(t)
             case .free(let i, let cont):
-                return ___VARIABLE_productName___TargetMonad<Void>.pure(()).flatMap{_ in i.interpretation(with: interpreter){t in
-                    cont(t).runUnsafe(interpreter)
-                }
-                }
+                return interpreter.evaluate(i).flatMap{cont($0).runUnsafe(interpreter)}
             }
-            
         }
         
         
@@ -137,16 +109,7 @@ public extension ___VARIABLE_productName___ {
         /// - Parameters:
         ///     - action: The ___VARIABLE_productName___ to wrap.
         public static func lift(_ action: ___VARIABLE_productName___) -> Free {
-            .lift(action, Free.pure)
-        }
-        
-        
-        
-        ///Wraps a ___VARIABLE_productName___ into the monad.
-        /// - Parameters:
-        ///     - action: The ___VARIABLE_productName___ to wrap.
-        public static func lift<U>(_ action: ___VARIABLE_productName___, _ continuation: @escaping (T) -> ___VARIABLE_productName___U<U>.Free) -> ___VARIABLE_productName___U<U>.Free {
-            ___VARIABLE_productName___.Free.free(action){.pure($0 as! T)}.flatMap(continuation)
+            .init(kind: .free(action.erased(), {.pure($0 as! T)}))
         }
         
     }
