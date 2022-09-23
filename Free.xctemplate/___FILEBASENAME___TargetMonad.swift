@@ -5,24 +5,22 @@ import Foundation
 
 
 //use for production
-//if your monad requires to escape the continuation, feel free to change the protocol accordingly
-//this should not be source breaking
 
 
-public protocol ___VARIABLE_productName___TargetInterpreter {
+public protocol ___VARIABLE_productionMonad___Interpreter {
     
-    func evaluate<T>(_ action: ___VARIABLE_productName___<T>) -> ___VARIABLE_productName___TargetMonad<T>
+    func evaluate<T>(_ action: ___VARIABLE_productName___<T>) -> ___VARIABLE_productionMonad___<T>
     
 }
 
 
-public struct ___VARIABLE_productName___TargetMonad<S> {
+public struct ___VARIABLE_productionMonad___<S> {
     
     //Yours to implement
     
 }
 
-public extension ___VARIABLE_productName___TargetMonad {
+public extension ___VARIABLE_productionMonad___ {
 
     //please implement, Free depends on it
     
@@ -30,13 +28,13 @@ public extension ___VARIABLE_productName___TargetMonad {
         fatalError("Yours to implement")
     }
     
-    func flatMap<T>(_ transform: @escaping (S) -> ___VARIABLE_productName___TargetMonad<T>) -> ___VARIABLE_productName___TargetMonad<T> {
+    func flatMap<T>(_ transform: @escaping (S) -> ___VARIABLE_productionMonad___<T>) -> ___VARIABLE_productionMonad___<T> {
         fatalError("Yours to implement")
     }
     
     //map is only needed if you want to implement any workflows in this monad
     
-    func map<T>(_ transform: @escaping (S) -> T) -> ___VARIABLE_productName___TargetMonad<T> {
+    func map<T>(_ transform: @escaping (S) -> T) -> ___VARIABLE_productionMonad___<T> {
         fatalError("Yours to implement")
     }
     

@@ -3,7 +3,7 @@
 import Foundation
 
 
-//Your DSL - do whatever you want 
+// Your DSL - do whatever you want
 
 
 public struct ___VARIABLE_productName___<T> {
@@ -18,6 +18,8 @@ public struct ___VARIABLE_productName___<T> {
         case apiRequest(APIRequest, (APIResponse) -> T)
         case error(InternalError, (ErrorRecovery) -> T)
     }
+    
+    // Yours to maintain up to date - this is required by Free
     
     public func erased() -> ___VARIABLE_productName___<Any> {
         switch kind {
@@ -88,3 +90,6 @@ public extension ___VARIABLE_productName___.Free where T == ErrorRecovery {
     }
     
 }
+
+
+public typealias MyMonad<T> = ___VARIABLE_productName___<T>.Free

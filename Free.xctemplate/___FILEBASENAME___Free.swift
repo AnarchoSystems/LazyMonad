@@ -80,9 +80,21 @@ public extension ___VARIABLE_productName___ {
             
         }
         
-        ///Runs the monadic computation using an interpreter appropriate for testing and debugging.
+        ///Runs the monadic computation using an interpreter appropriate for testing.
         /// - Note: The implementation of ```runUnsafe``` is exactly the same for different types of interpreters. Feel free to add further target monads via copy+paste. If Swift had higher kind types, one could even put this into a single protocol.
-        public func runUnsafe<I : ___VARIABLE_productName___MockInterpreter>(_ interpreter: I) -> ___VARIABLE_productName___MockMonad<T> {
+        public func runUnsafe<I : ___VARIABLE_mockMonad___Interpreter>(_ interpreter: I) -> ___VARIABLE_mockMonad___<T> {
+            
+            switch kind {
+            case .pure(let t):
+                return .pure(t)
+            case .free(let i, let cont):
+                return interpreter.evaluate(i).flatMap{cont($0).runUnsafe(interpreter)}
+                }
+            }
+        
+        ///Runs the monadic computation using an interpreter appropriate for debugging.
+        /// - Note: The implementation of ```runUnsafe``` is exactly the same for different types of interpreters. Feel free to add further target monads via copy+paste. If Swift had higher kind types, one could even put this into a single protocol.
+        public func runUnsafe<I : ___VARIABLE_debugMonad___Interpreter>(_ interpreter: I) -> ___VARIABLE_debugMonad___<T> {
             
             switch kind {
             case .pure(let t):
@@ -94,7 +106,7 @@ public extension ___VARIABLE_productName___ {
             
         ///Runs the monadic computation using an interpreter appropriate for production.
         /// - Note: The implementation of ```runUnsafe``` is exactly the same for different types of interpreters. Feel free to add further target monads via copy+paste. If Swift had higher kind types, one could even put this into a single protocol.
-        public func runUnsafe<I : ___VARIABLE_productName___TargetInterpreter>(_ interpreter: I) -> ___VARIABLE_productName___TargetMonad<T> {
+        public func runUnsafe<I : ___VARIABLE_productionMonad___Interpreter>(_ interpreter: I) -> ___VARIABLE_productionMonad___<T> {
             
             switch kind {
             case .pure(let t):

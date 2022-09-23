@@ -3,7 +3,7 @@
 
 # Installation
 
-Clone the project, create a folder at /Library/Developer/XCode/Templates/ (or navigate there if you already have templates) and copy the content of this project to this folder. Restart XCode if it is running.
+Clone the project, create a folder at /Library/Developer/XCode/Templates/ (or navigate there if you already have templates) and copy the xctemplate folders from this project to this folder. Restart XCode if it is running.
 
 
 # Usage

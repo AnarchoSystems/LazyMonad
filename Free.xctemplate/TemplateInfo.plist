@@ -18,6 +18,54 @@
 			<key>Identifier</key>
 			<string>productName</string>
 		</dict>
+		<dict>
+			<key>NotPersisted</key>
+			<string>true</string>
+			<key>Type</key>
+			<string>text</string>
+			<key>Description</key>
+			<string>The name of the production monad </string>
+			<key>Name</key>
+			<string>Target Monad Name</string>
+			<key>Required</key>
+			<true/>
+			<key>Default</key>
+			<string>ProductionMonad</string>
+			<key>Identifier</key>
+			<string>productionMonad</string>
+		</dict>
+		<dict>
+			<key>NotPersisted</key>
+			<string>true</string>
+			<key>Type</key>
+			<string>text</string>
+			<key>Description</key>
+			<string>The name of the monad for testing</string>
+			<key>Name</key>
+			<string>Test Monad Name</string>
+			<key>Required</key>
+			<true/>
+			<key>Default</key>
+			<string>MockMonad</string>
+			<key>Identifier</key>
+			<string>mockMonad</string>
+		</dict>
+		<dict>
+			<key>NotPersisted</key>
+			<string>true</string>
+			<key>Type</key>
+			<string>text</string>
+			<key>Description</key>
+			<string>The name of the monad for debugging</string>
+			<key>Name</key>
+			<string>Debug Monad Name</string>
+			<key>Required</key>
+			<true/>
+			<key>Default</key>
+			<string>DebugMonad</string>
+			<key>Identifier</key>
+			<string>debugMonad</string>
+		</dict>
 	</array>
 	<key>SupportsSwiftPackage</key>
 	<true/>
